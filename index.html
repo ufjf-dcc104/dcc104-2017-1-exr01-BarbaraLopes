@@ -12,15 +12,37 @@
       var ctx = eCanvas.getContext("2d");
 
       ctx.fillText("Olá Mundo!", 10, 10);
-      ctx.fillStyle = "pink";
-      ctx.fillRect(20, 50, 15, 15);
-      ctx.lineWidth = 2;
-      ctx.strokeRect(20, 50, 15, 15);
 
-      ctx.fillStyle = "purple";
-      ctx.fillRect(120, 50, 15, 15);
-      ctx.lineWidth = 2;
-      ctx.strokeRect(120, 50, 15, 15);
+      var rosa = {
+        x: 0,
+        y: 50
+      };
+      var fps = 60;
+      var dt = 1/fps;
+
+      setInterval(desenha, 1000/fps);
+
+      function desenha(){
+        ctx.clearRect(0,0,eCanvas.width,eCanvas.height)
+        rosa.x = rosa.x + 10*dt;
+        desenhaRosa(ctx);
+        desenhaRoxo(ctx);
+      }
+
+      function desenhaRosa(ctx) {
+        ctx.fillStyle = "pink";
+        ctx.fillRect(rosa.x, rosa.y, 15, 15);
+        ctx.lineWidth = 2;
+        ctx.strokeRect(rosa.x, rosa.y, 15, 15);
+      }
+
+      function desenhaRoxo(ctx) {
+        ctx.fillStyle = "purple";
+        ctx.fillRect(120, 50, 15, 15);
+        ctx.lineWidth = 2;
+        ctx.strokeRect(120, 50, 15, 15);
+      }
+
 
     </script>
   </body>
