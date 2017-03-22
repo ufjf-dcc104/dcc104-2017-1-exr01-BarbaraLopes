@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>DCC104 - EXEMPLO 01</title>
+    <script src="Sprite.js" charset="utf-8"></script>
   </head>
   <body>
     <h1>DCC 104 - Exemplo 01</h1>
@@ -11,10 +12,11 @@
       var eCanvas = document.getElementsByTagName("canvas")[0];
       var ctx = eCanvas.getContext("2d");
 
-      var rosa = {
-        x: 0,
-        y: 50
-      };
+      var rosa = new Sprite();
+      var roxo = new Sprite();
+      roxo.x=150;
+      roxo.y=100;
+      roxo.color = "purple";
       var fps = 120;
       var atual = new Date();
       var anterior = new Date();
@@ -30,26 +32,13 @@
         ctx.clearRect(0,0,eCanvas.width,eCanvas.height)
         ctx.fillStyle = "darkgreen"
         ctx.fillText("dt: " +dt+" fps: " +Math.floor(1/dt), 10, 10);
-        rosa.x = rosa.x + 30*dt;
-        rosa.y = rosa.y + 10*dt;
-        desenhaRosa(ctx);
-        desenhaRoxo(ctx);
+
+        rosa.mover(dt);
+        roxo.mover(dt);
+        rosa.desenhar(ctx);
+        roxo.desenhar(ctx);
 
         anterior = atual;
-      }
-
-      function desenhaRosa(ctx) {
-        ctx.fillStyle = "pink";
-        ctx.fillRect(rosa.x, rosa.y, 15, 15);
-        ctx.lineWidth = 2;
-        ctx.strokeRect(rosa.x, rosa.y, 15, 15);
-      }
-
-      function desenhaRoxo(ctx) {
-        ctx.fillStyle = "purple";
-        ctx.fillRect(120, 50, 15, 15);
-        ctx.lineWidth = 2;
-        ctx.strokeRect(120, 50, 15, 15);
       }
 
 
