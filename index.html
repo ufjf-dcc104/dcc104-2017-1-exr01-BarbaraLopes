@@ -13,6 +13,9 @@
       var ctx = eCanvas.getContext("2d");
 
       var rosa = new Sprite();
+      var fuel = 100;
+      var acelerandoX = false;
+      var acelerandoY = false;
       var roxo = new Sprite();
       roxo.x=150;
       roxo.y=100;
@@ -29,31 +32,59 @@
         atual = new Date();
         dt = (atual - anterior)/1000;
 
-        ctx.clearRect(0,0,eCanvas.width,eCanvas.height)
+        ctx.clearRect(0,0,eCanvas.width,eCanvas.height);
+        ctx.strokeRect(0,0,eCanvas.width,eCanvas.height)
         ctx.fillStyle = "darkgreen"
         ctx.fillText("dt: " +dt+" fps: " +Math.floor(1/dt), 10, 10);
 
+        ctx.fillStyle = "green";
+        ctx.fillRect(20,20,fuel,5);
+        ctx.strokeRect(20,20, fuel,5);
+
+
+        if(acelerandoX && fuel >0){
+          fuel = fuel -5*dt;
+        }
+        if(acelerandoY && fuel >0){
+          fuel = fuel -15*dt;
+        }
         rosa.mover(dt);
         roxo.mover(dt);
         rosa.desenhar(ctx);
         roxo.desenhar(ctx);
 
+        if(rosa.y > 150){
+          rosa.y = 0;
+          rosa.vy = 0;
+          rosa.ay = 0;
+          rosa.x = 150;
+          fuel = 100;
+        }
+
         anterior = atual;
       }
 
       addEventListener("keydown", function(e){
+        if(fuel <= 0) return;
           switch(e.keyCode){
+            /*case 32:
+              rosa.vy = rosa.vy -80;
+              break;*/
             case 37:
               rosa.ax = -100;
+              acelerandoX = true;
               break;
             case 38:
               rosa.ay = -100;
+              acelerandoY = true;
               break;
             case 39:
               rosa.ax = +100;
+              acelerandoX = true;
               break;
             case 40:
               rosa.ay = +100;
+              acelerandoY = true;
               break;
             default:
           }
@@ -63,15 +94,19 @@
           switch(e.keyCode){
             case 37:
               rosa.ax = 0;
+              acelerandoX = false;
               break;
             case 38:
               rosa.ay = 0;
+              acelerandoY = false;
               break;
             case 39:
               rosa.ax = 0;
+              acelerandoX = false;
               break;
             case 40:
               rosa.ay = 0;
+              acelerandoY = false;
               break;
             default:
           }
