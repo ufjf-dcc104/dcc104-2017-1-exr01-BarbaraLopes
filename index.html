@@ -38,6 +38,8 @@
         ctx.fillStyle = "darkgreen"
         ctx.fillText("dt: " +dt+" fps: " +Math.floor(1/dt), 10, 10);
 
+        level.perseguir(rosa,dt);
+
         rosa.mover(dt);
         level.mover(dt);
 
