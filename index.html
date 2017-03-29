@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>DCC104 - EXEMPLO 01</title>
     <script src="Sprite.js" charset="utf-8"></script>
+    <script src="Level.js" charset="utf-8"></script>
   </head>
   <body>
     <h1>DCC 104 - Exemplo 01</h1>
@@ -12,18 +13,18 @@
       var eCanvas = document.getElementsByTagName("canvas")[0];
       var ctx = eCanvas.getContext("2d");
 
-      var rosa = new Sprite();
-      var fuel = 100;
-      var acelerandoX = false;
-      var acelerandoY = false;
-      var roxo = new Sprite();
-      roxo.x=150;
-      roxo.y=100;
-      roxo.color = "purple";
       var fps = 120;
       var atual = new Date();
       var anterior = new Date();
       var dt = 1/fps;
+
+      var rosa = new Sprite();
+      var fuel = 100;
+      var acelerandoX = false;
+      var acelerandoY = false;
+      var level = new Level();
+      level.init();
+
 
       desenha();
 
@@ -37,29 +38,15 @@
         ctx.fillStyle = "darkgreen"
         ctx.fillText("dt: " +dt+" fps: " +Math.floor(1/dt), 10, 10);
 
-        ctx.fillStyle = "green";
-        ctx.fillRect(20,20,fuel,5);
-        ctx.strokeRect(20,20, fuel,5);
-
-
-        if(acelerandoX && fuel >0){
-          fuel = fuel -5*dt;
-        }
-        if(acelerandoY && fuel >0){
-          fuel = fuel -15*dt;
-        }
         rosa.mover(dt);
-        roxo.mover(dt);
-        rosa.desenhar(ctx);
-        roxo.desenhar(ctx);
+        level.mover(dt);
 
-        if(rosa.y > 150){
-          rosa.y = 0;
-          rosa.vy = 0;
-          rosa.ay = 0;
-          rosa.x = 150;
-          fuel = 100;
-        }
+        level.colidiuCom(rosa, function(inimigo, alvo){
+          inimigo.color = "red";
+        });
+
+        rosa.desenhar(ctx);
+        level.desenhar(ctx);
 
         anterior = atual;
       }
@@ -72,19 +59,15 @@
               break;*/
             case 37:
               rosa.ax = -100;
-              acelerandoX = true;
               break;
             case 38:
               rosa.ay = -100;
-              acelerandoY = true;
               break;
             case 39:
               rosa.ax = +100;
-              acelerandoX = true;
               break;
             case 40:
               rosa.ay = +100;
-              acelerandoY = true;
               break;
             default:
           }
@@ -94,19 +77,15 @@
           switch(e.keyCode){
             case 37:
               rosa.ax = 0;
-              acelerandoX = false;
               break;
             case 38:
               rosa.ay = 0;
-              acelerandoY = false;
               break;
             case 39:
               rosa.ax = 0;
-              acelerandoX = false;
               break;
             case 40:
               rosa.ay = 0;
-              acelerandoY = false;
               break;
             default:
           }

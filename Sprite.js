@@ -5,6 +5,7 @@ function Sprite(){
   this.vy = 0;
   this.ax = 0;
   this.ay = 0;
+  this.g=0;
   this.color = "pink"
 }
 
@@ -17,7 +18,15 @@ Sprite.prototype.desenhar = function (ctx) {
 
 Sprite.prototype.mover = function (dt) {
   this.vx = this.vx + this.ax*dt;
-  this.vy = this.vy + (this.ay+60)*dt;
+  this.vy = this.vy + (this.ay+this.g)*dt;
   this.x = this.x + this.vx*dt;
   this.y = this.y + this.vy*dt;
+};
+
+Sprite.prototype.colidiuCom = function (alvo) {
+  if(this.x+15 < alvo.x) return false;
+  if(this.x > alvo.x+15) return false;
+  if(this.y+15 < alvo.y) return false;
+  if(this.y > alvo.y+15) return false;
+  return true;
 };
